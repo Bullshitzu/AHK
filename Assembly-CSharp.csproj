@@ -47,6 +47,9 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Resources\Scripts\AHK\AHKController.cs" />
+     <Compile Include="Assets\Resources\Scripts\AHK\Engine.cs" />
+     <Compile Include="Assets\Resources\Scripts\AHK\Gyro.cs" />
+     <Compile Include="Assets\Resources\Scripts\Input\JoystickFlight.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
