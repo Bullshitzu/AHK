@@ -6,7 +6,7 @@ public class Gyro : MonoBehaviour {
     public Rigidbody mainRigidbody;
 
     float targetPower;
-    float currentPower;
+    public float currentPower;
 
     public float torque;
 
@@ -17,8 +17,11 @@ public class Gyro : MonoBehaviour {
         mainRigidbody.AddRelativeTorque(new Vector3(currentPower * torque, 0, 0));
 
 	}
-
     public void SetPower (float target) {
         targetPower = target;
+    }
+    public void Reset () {
+        targetPower = 0;
+        currentPower = 0;
     }
 }

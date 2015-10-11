@@ -49,6 +49,15 @@
      <Compile Include="Assets\Resources\Scripts\AHK\AHKController.cs" />
      <Compile Include="Assets\Resources\Scripts\AHK\Engine.cs" />
      <Compile Include="Assets\Resources\Scripts\AHK\Gyro.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\ANNTrainer.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\Brain.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\Neuron.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\NeuronInput.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\Synapse.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\TrainerBaseline.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\TrainerCorrelation.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\TrainerHover.cs" />
+     <Compile Include="Assets\Resources\Scripts\ANN\TrainingHarness.cs" />
      <Compile Include="Assets\Resources\Scripts\Input\JoystickFlight.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

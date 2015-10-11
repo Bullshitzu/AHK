@@ -1,9 +1,10 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Resources\Scripts\AHK\AHKController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="..\..\Troll &amp; Elves\Assets\Editor\MapEditor.cs">
     <Files>
+      <File FileName="..\..\Troll &amp; Elves\Assets\Editor\MapEditor.cs" Line="18" Column="2" />
       <File FileName="Assets\Resources\Scripts\AHK\Engine.cs" Line="21" Column="75" />
-      <File FileName="Assets\Resources\Scripts\AHK\AHKController.cs" Line="66" Column="4" />
+      <File FileName="Assets\Resources\Scripts\AHK\AHKController.cs" Line="43" Column="3" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

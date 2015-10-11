@@ -4,13 +4,13 @@ using System.Collections;
 public class AHKController : MonoBehaviour {
 
     public static AHKController instance;
+    public Brain brain;
 
     public enum EngineType {
         Left,
         Right
     }
 
-    #region References
     [Header("GO Refs")]
 	public GameObject engineLeftFan;
 	public GameObject engineRightFan;
@@ -18,9 +18,7 @@ public class AHKController : MonoBehaviour {
     public GameObject intakeFanLeft;
     public GameObject intakeFanRight;
 
-    // other references here...
-
-    #endregion
+    public GameObject flightTarget;
 
     [Header("Controls")]
     public Engine engineLeft;
@@ -32,13 +30,17 @@ public class AHKController : MonoBehaviour {
     public float engineFanSpeed;
     public float intakeFanSpeed;
 
+    public bool enableTraining;
     
     void Start () {
         instance = this;
         GetComponent<Rigidbody>().centerOfMass = new Vector3(-0.01f, 2.5f, -2.7f);
+        brain = new Brain();
     }
 
     void Update () {
+
+        if(enableTraining) brain.Execute();
 
         engineLeftFan.transform.Rotate(0, engineFanSpeed * Time.deltaTime, 0, Space.Self);
         engineRightFan.transform.Rotate(0, engineFanSpeed * Time.deltaTime, 0, Space.Self);
