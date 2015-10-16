@@ -23,7 +23,7 @@ public class TrainerBaseline : TrainerCorrelation {
                 int synapseIndex = (currentIteration - 2) % brain.InputCount;
 
                 brain.SimulateInput(synapseIndex);
-                SetIterationConstraints(synapseIndex, brain);
+                //SetIterationConstraints(synapseIndex, brain);
 
                 return;
         }
@@ -40,9 +40,9 @@ public class TrainerBaseline : TrainerCorrelation {
                 int neuronIndex = (num - 2) / brain.InputCount;
                 int synapseIndex = (num - 2) % brain.InputCount;
 
-                float currResult = (brain.Inputs[synapseIndex].currentValue - 0.5f);
+                float currResult = (brain.Inputs[synapseIndex].currentValue);
 
-                baseList[synapseIndex] = Mathf.Clamp01(currResult);
+                baseList[synapseIndex] = currResult;
 
                 Debug.Log(neuronIndex + 1 + " - " + baseList.Length + " - " + synapseIndex + " - " + currResult);
 
@@ -53,7 +53,7 @@ public class TrainerBaseline : TrainerCorrelation {
 
                     for (int i = 0; i < brain.OutputCount; i++) {
                         for (int j = 0; j < brain.InputCount; j++) {
-                            brain.MainColumn[i].InputSynapses[j].multiplier = Mathf.Clamp01(baseList[j]);
+                            brain.MainColumn[i].InputSynapses[j].multiplier = baseList[j];
                         }
                     }
                 }

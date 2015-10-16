@@ -23,7 +23,7 @@ public class TrainerCorrelation : ANNTrainer {
 
                 brain.MainColumn[neuronIndex].InputSynapses[synapseIndex].multiplier = 1;
                 brain.SimulateInput(synapseIndex);
-                SetIterationConstraints(synapseIndex, brain);
+                //SetIterationConstraints(synapseIndex, brain);
 
                 return;
         }
@@ -137,11 +137,10 @@ public class TrainerCorrelation : ANNTrainer {
                 }
                 else results = scoreSets[neuronIndex];
 
-                float currResult = (brain.Inputs[synapseIndex].currentValue - TrainerBaseline.baseList[synapseIndex]);
+                float currResult = (TrainerBaseline.baseList[synapseIndex] - brain.Inputs[synapseIndex].currentValue) * 2; // cca 2.5, perfect with an additional genetic pass
+                results[synapseIndex] = currResult;
 
-                scoreSets[neuronIndex + 1][synapseIndex] = Mathf.Clamp01((0.5f+currResult)*5f);
-
-                Debug.Log(neuronIndex + 1 + " - " + scoreSets.Count + " - " + synapseIndex + " - " + currResult);
+                Debug.Log(neuronIndex + 1 + "   -   " + synapseIndex + "   -   " + brain.Inputs[synapseIndex].currentValue + "  -   " + TrainerBaseline.baseList[synapseIndex] + "  -   " + currResult);
 
                 if (num == iterationCount) {
                     Debug.Log("Done! Applying..");

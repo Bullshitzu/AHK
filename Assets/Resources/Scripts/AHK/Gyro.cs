@@ -13,9 +13,9 @@ public class Gyro : MonoBehaviour {
 	void Update () {
 
         currentPower = Mathf.Lerp(currentPower, targetPower, 0.5f);
+        mainRigidbody.WakeUp();
 
-        mainRigidbody.AddRelativeTorque(new Vector3(currentPower * torque, 0, 0));
-
+        if(!float.IsNaN(currentPower * torque)) mainRigidbody.AddRelativeTorque(new Vector3(currentPower * torque, 0, 0));
 	}
     public void SetPower (float target) {
         targetPower = target;

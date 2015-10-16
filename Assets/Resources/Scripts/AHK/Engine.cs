@@ -27,7 +27,11 @@ public class Engine : MonoBehaviour {
 
         enginePivot.transform.localRotation = Quaternion.Euler(currentTiltSmoothed, 0, 0);
 
-        mainRigidbody.AddForceAtPosition(transform.up * thrust * currentPower * Time.deltaTime, enginePivot.transform.position);
+        Vector3 thrustVector = transform.up * thrust * currentPower * Time.deltaTime;
+
+        Debug.DrawRay(enginePivot.transform.position, thrustVector, Color.red);
+
+        if (!float.IsNaN(thrustVector.x) && !float.IsNaN(thrustVector.y) && !float.IsNaN(thrustVector.z)) mainRigidbody.AddForceAtPosition(thrustVector, enginePivot.transform.position);
         flameEffect.startColor = new Color(1, 0.8f, 0.8f, currentPower * 0.5f);
         flameLight.intensity = currentPower * 3f;
 	}

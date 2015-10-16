@@ -90,23 +90,23 @@ public class Brain {
         // rotation relative to target point (local) x3
         // local rotation speed x3
 
-        Vector3 relPos = AHK.transform.InverseTransformPoint(Controller.flightTarget.transform.position) / 5f; //todo: offset for CoM
+        Vector3 relPos = AHK.transform.InverseTransformPoint(Controller.flightTarget.transform.position) / 10f; //todo: offset for CoM
         Inputs[0].currentValue = relPos.x + 0.5f;
         Inputs[1].currentValue = relPos.y + 0.5f;
         Inputs[2].currentValue = relPos.z + 0.5f;
 
-        Vector3 vel = AHK.GetComponent<Rigidbody>().velocity / 5f;
+        Vector3 vel = AHK.GetComponent<Rigidbody>().velocity / 10f;
         Inputs[3].currentValue = vel.x + 0.5f;
         Inputs[4].currentValue = vel.y + 0.5f;
         Inputs[5].currentValue = vel.z + 0.5f;
 
         Vector3 relRot = AHK.transform.localRotation.eulerAngles - Controller.flightTarget.transform.localRotation.eulerAngles;
-        relRot = new Vector3(relRot.x > 180 ? 360 - relRot.x : relRot.x, relRot.y > 180 ? 360 - relRot.y : relRot.y, relRot.z > 180 ? 360 - relRot.z : relRot.z) / 10f;
+        relRot = new Vector3(relRot.x > 180 ? -(360 - relRot.x) : relRot.x, relRot.y > 180 ? -(360 - relRot.y) : relRot.y, relRot.z > 180 ? -(360 - relRot.z) : relRot.z) / 30f;
         Inputs[6].currentValue = relRot.x + 0.5f;
         Inputs[7].currentValue = relRot.y + 0.5f;
         Inputs[8].currentValue = relRot.z + 0.5f;
 
-        Vector3 angVel = AHK.GetComponent<Rigidbody>().angularVelocity;
+        Vector3 angVel = AHK.GetComponent<Rigidbody>().angularVelocity / 2f;
         Inputs[9].currentValue = angVel.x + 0.5f;
         Inputs[10].currentValue = angVel.y + 0.5f;
         Inputs[11].currentValue = angVel.z + 0.5f;
@@ -137,43 +137,43 @@ public class Brain {
 
         switch (input) {
             case 0:
-                AHK.transform.position = new Vector3(-2.5f, 0, 0);
+                AHK.transform.position = new Vector3(-5f, 0, 0);
                 break;
             case 1:
-                AHK.transform.position = new Vector3(0, -2.5f, 0);
+                AHK.transform.position = new Vector3(0, -5f, 0);
                 break;
             case 2:
-                AHK.transform.position = new Vector3(0, 0, -2.5f);
+                AHK.transform.position = new Vector3(0, 0, -5f);
                 break;
 
             case 3:
-                AHK.GetComponent<Rigidbody>().velocity = new Vector3(2.5f, 0, 0);
+                AHK.GetComponent<Rigidbody>().velocity = new Vector3(5f, 0, 0);
                 break;
             case 4:
-                AHK.GetComponent<Rigidbody>().velocity = new Vector3(0, 2.5f, 0);
+                AHK.GetComponent<Rigidbody>().velocity = new Vector3(0, 5f, 0);
                 break;
             case 5:
-                AHK.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 2.5f);
+                AHK.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 5f);
                 break;
 
             case 6:
-                AHK.transform.localRotation = Quaternion.Euler(5, 0, 0);
+                AHK.transform.localRotation = Quaternion.Euler(15f, 0, 0);
                 break;
             case 7:
-                AHK.transform.localRotation = Quaternion.Euler(0, 5, 0);
+                AHK.transform.localRotation = Quaternion.Euler(0, 15f, 0);
                 break;
             case 8:
-                AHK.transform.localRotation = Quaternion.Euler(0, 0, 5);
+                AHK.transform.localRotation = Quaternion.Euler(0, 0, 15f);
                 break;
 
             case 9:
-                AHK.GetComponent<Rigidbody>().angularVelocity = new Vector3(0.5f, 0, 0);
+                AHK.GetComponent<Rigidbody>().angularVelocity = new Vector3(1f, 0, 0);
                 break;
             case 10:
-                AHK.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0.5f, 0);
+                AHK.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 1f, 0);
                 break;
             case 11:
-                AHK.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 0.5f);
+                AHK.GetComponent<Rigidbody>().angularVelocity = new Vector3(0, 0, 1f);
                 break;
         }
 

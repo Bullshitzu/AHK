@@ -171,9 +171,11 @@ public class AHKStatus : EditorWindow {
     }
 
     Color GetColorFromValue01 (float value) {
+        if (float.IsNaN(value)) value = 0;
         return new Color(1-value, value, 0, 1);
     }
     Color GetColorFromValue11 (float value) {
+        if (float.IsNaN(value)) value = 0;
         value = (value + 1) / 2f;
         return new Color(1 - value, value, 0, 1);
     }
