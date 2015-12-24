@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -38,7 +38,7 @@ public class Brain {
 
         // MAIN COLUMN
 
-        for (int i = 0; i < OutputCount; i++) {
+        for (int i = 0; i < InputCount + 1; i++) {
             Neuron tempNeuron = new Neuron();
             for (int j = 0; j < InputCount; j++) {
                 tempNeuron.InputSynapses.Add(new Synapse(Inputs[j]));
@@ -50,7 +50,9 @@ public class Brain {
 
         for (int i = 0; i < OutputCount; i++) {
             Neuron tempNeuron = new Neuron();
-            tempNeuron.InputSynapses.Add(new Synapse(MainColumn[i]));
+            for (int j = 0; j < InputCount + 1; j++) {
+                tempNeuron.InputSynapses.Add(new Synapse(MainColumn[j]));
+            }
             Outputs.Add(tempNeuron);
         }
 
@@ -59,19 +61,22 @@ public class Brain {
         TrainingSet = new List<ANNTrainer>();
         TrainingSet.Add(new TrainerBaseline(this));
         TrainingSet.Add(new TrainerCorrelation(this));
+        TrainingSet.Add(new TrainerGeneticHover(this));
     }
 
-    public void Execute () {
+    public void Execute (bool withTraining) {
 
         UpdateInputs();
 
-        if (TrainingSet.Count > 0) {
-            if (TrainingSet[0].Execute(this)) {
-                TrainingSet.RemoveAt(0);
+        if (withTraining) {
+            if (TrainingSet.Count > 0) {
+                if (TrainingSet[0].Execute(this)) {
+                    TrainingSet.RemoveAt(0);
+                }
             }
         }
 
-        for (int i = 0; i < OutputCount; i++) {
+        for (int i = 0; i < MainColumn.Count; i++) {
             MainColumn[i].RecalculateValue();
         }
 

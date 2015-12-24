@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -16,6 +16,7 @@ public abstract class ANNTrainer {
     protected float timer = 0;
     protected float timerMax = 1;
     protected float currScore = 0;
+    protected float lastScore = 0;
 
     protected int iterationCount = 1;
     protected int currentIteration = 1;
@@ -38,6 +39,7 @@ public abstract class ANNTrainer {
 
             StartIteration(currentIteration, brain);
 
+            lastScore = currScore;
             currScore = 0;
             timer = 0;
         }

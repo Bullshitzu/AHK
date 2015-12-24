@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,8 +34,8 @@ public class AHKStatus : EditorWindow {
             AHKController.instance.brain.Inputs[i].guiRect = new Rect(150, 30 * i + 50, 10, 10);
         }
 
-        for (int i = 0; i < AHKController.instance.brain.OutputCount; i++) {
-            AHKController.instance.brain.MainColumn[i].guiRect = new Rect(300, 30 * i + 80, 10, 10);
+        for (int i = 0; i < AHKController.instance.brain.InputCount + 1; i++) {
+            AHKController.instance.brain.MainColumn[i].guiRect = new Rect(300, 30 * i + 35, 10, 10);
         }
 
         for (int i = 0; i < AHKController.instance.brain.OutputCount; i++) {
@@ -105,7 +105,7 @@ public class AHKStatus : EditorWindow {
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Inputs");
-            GUILayout.Label("Neurons");
+            GUILayout.Label("Hidden Layer");
             GUILayout.Label("Outputs");
             GUILayout.EndHorizontal();
 
@@ -149,9 +149,18 @@ public class AHKStatus : EditorWindow {
 
             // NEURONS
 
+            char[] axisNames = new char[] { 'X', 'Y', 'Z' };
+            char[] outputSigns = new char[] { '+', '-' };
+
             for (int i = 0; i < Inputs.Count; i++) {
                 GUI.color = GetColorFromValue01(Inputs[i].currentValue);
                 GUI.Box(Inputs[i].guiRect, GUIContent.none);
+            }
+
+            GUI.color = new Color(1, 1, 1, 1);
+            for (int i = 0; i < Inputs.Count; i++) {
+                char character = axisNames[i % 3];
+                GUI.Label(Utility.AddRects(Inputs[i].guiRect, new Rect(-20, -6, 10, 10)), character.ToString());
             }
 
             for (int i = 0; i < Main.Count; i++) {
@@ -162,6 +171,12 @@ public class AHKStatus : EditorWindow {
             for (int i = 0; i < Outputs.Count; i++) {
                 GUI.color = GetColorFromValue01(Outputs[i].currentValue);
                 GUI.Box(Outputs[i].guiRect, GUIContent.none);
+            }
+
+            GUI.color = new Color(1, 1, 1, 1);
+            for (int i = 0; i < Outputs.Count; i++) {
+                char character = outputSigns[i % 2];
+                GUI.Label(Utility.AddRects(Outputs[i].guiRect, new Rect(10, -6, 10, 10)), character.ToString());
             }
 
             GUI.EndGroup();

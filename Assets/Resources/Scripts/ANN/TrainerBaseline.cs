@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -10,9 +10,15 @@ public class TrainerBaseline : TrainerCorrelation {
     }
 
     public override void Mutate (Brain brain) {
-        for (int i = 0; i < brain.OutputCount; i++) {
-            for (int j = 0; j < brain.InputCount; j++) {
-                brain.MainColumn[i].InputSynapses[j].multiplier = 0.1f;
+        
+        foreach (Neuron currNeuron in brain.MainColumn) {
+            foreach (Synapse currSynapse in currNeuron.InputSynapses) {
+                currSynapse.multiplier = 0.01f;
+            }
+        }
+        foreach (Neuron currNeuron in brain.Outputs) {
+            foreach (Synapse currSynapse in currNeuron.InputSynapses) {
+                currSynapse.multiplier = 0.01f;
             }
         }
         
@@ -50,14 +56,8 @@ public class TrainerBaseline : TrainerCorrelation {
                     Debug.Log("Done! Applying..");
 
                     Reset(brain.Controller);
-
-                    for (int i = 0; i < brain.OutputCount; i++) {
-                        for (int j = 0; j < brain.InputCount; j++) {
-                            brain.MainColumn[i].InputSynapses[j].multiplier = baseList[j];
-                        }
-                    }
                 }
-
+                
                 return;
         }
     }

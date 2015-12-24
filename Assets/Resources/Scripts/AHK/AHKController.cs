@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class AHKController : MonoBehaviour {
@@ -40,7 +40,7 @@ public class AHKController : MonoBehaviour {
 
     void Update () {
 
-        if(enableTraining) brain.Execute();
+        brain.Execute(enableTraining);
 
         engineLeftFan.transform.Rotate(0, engineFanSpeed * Time.deltaTime, 0, Space.Self);
         engineRightFan.transform.Rotate(0, engineFanSpeed * Time.deltaTime, 0, Space.Self);

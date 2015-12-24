@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -8,9 +8,14 @@ public class TrainerCorrelation : ANNTrainer {
 
     public override void Mutate (Brain brain)  {
 
-        for (int i = 0; i < brain.OutputCount; i++) {
-            for (int j = 0; j < brain.InputCount; j++) {
-                brain.MainColumn[i].InputSynapses[j].multiplier = 0.1f;
+        foreach (Neuron currNeuron in brain.MainColumn) {
+            foreach (Synapse currSynapse in currNeuron.InputSynapses) {
+                currSynapse.multiplier = 0.01f;
+            }
+        }
+        foreach (Neuron currNeuron in brain.Outputs) {
+            foreach (Synapse currSynapse in currNeuron.InputSynapses) {
+                currSynapse.multiplier = 0.01f;
             }
         }
 
@@ -18,11 +23,12 @@ public class TrainerCorrelation : ANNTrainer {
             case 1:
                 return;
             default:
-                int neuronIndex = (currentIteration - 2) / brain.InputCount;
-                int synapseIndex = (currentIteration - 2) % brain.InputCount;
+                int outputIndex = (currentIteration - 2) / brain.InputCount;
+                int inputIndex = (currentIteration - 2) % brain.InputCount;
 
-                brain.MainColumn[neuronIndex].InputSynapses[synapseIndex].multiplier = 1;
-                brain.SimulateInput(synapseIndex);
+                brain.MainColumn[inputIndex].InputSynapses[inputIndex].multiplier = 1;
+                brain.Outputs[outputIndex].InputSynapses[inputIndex].multiplier = 1;
+                brain.SimulateInput(inputIndex);
                 //SetIterationConstraints(synapseIndex, brain);
 
                 return;
@@ -30,7 +36,7 @@ public class TrainerCorrelation : ANNTrainer {
     }
 
     public TrainerCorrelation (Brain brain) {
-        iterationCount = brain.MainColumn.Count * brain.MainColumn[0].InputSynapses.Count + 1;
+        iterationCount = brain.Outputs.Count * brain.Inputs.Count + 1;
         scoreSets = new List<float[]>();
         timerMax = 1f;
     }
@@ -121,26 +127,26 @@ public class TrainerCorrelation : ANNTrainer {
 
         switch (num) {
             case 1:
-                results = new float[brain.InputCount];
-                for (int i = 0; i < brain.InputCount; i++) {
+                results = new float[brain.Inputs.Count];
+                for (int i = 0; i < brain.Inputs.Count; i++) {
                     results[i] = brain.Inputs[i].currentValue;
                 }
                 scoreSets.Add(results);
                 return;
             default:
-                int neuronIndex = (num - 2) / brain.InputCount;
-                int synapseIndex = (num - 2) % brain.InputCount;
+                int outputIndex = (num - 2) / brain.InputCount;
+                int inputIndex = (num - 2) % brain.InputCount;
 
-                if (synapseIndex == 0) {
-                    results = new float[brain.InputCount];
+                if (inputIndex == 0) {
+                    results = new float[brain.Inputs.Count];
                     scoreSets.Add(results);
                 }
-                else results = scoreSets[neuronIndex];
+                else results = scoreSets[outputIndex];
 
-                float currResult = (TrainerBaseline.baseList[synapseIndex] - brain.Inputs[synapseIndex].currentValue) * 2; // cca 2.5, perfect with an additional genetic pass
-                results[synapseIndex] = currResult;
+                float currResult = (TrainerBaseline.baseList[inputIndex] - brain.Inputs[inputIndex].currentValue) * 2.5f; // cca 2.5, perfect with an additional genetic pass
+                results[inputIndex] = currResult;
 
-                Debug.Log(neuronIndex + 1 + "   -   " + synapseIndex + "   -   " + brain.Inputs[synapseIndex].currentValue + "  -   " + TrainerBaseline.baseList[synapseIndex] + "  -   " + currResult);
+                Debug.Log(outputIndex + 1 + "   -   " + inputIndex + "   -   " + brain.MainColumn[inputIndex].currentValue + "  -   " + TrainerBaseline.baseList[inputIndex] + "  -   " + currResult);
 
                 if (num == iterationCount) {
                     Debug.Log("Done! Applying..");
@@ -148,9 +154,17 @@ public class TrainerCorrelation : ANNTrainer {
                     Reset(brain.Controller);
 
                     for (int i = 0; i < brain.OutputCount; i++) {
-                        for (int j = 0; j < brain.InputCount; j++) {
-                            brain.MainColumn[i].InputSynapses[j].multiplier = Mathf.Clamp01(scoreSets[i][j]);
+                        for (int j = 0; j < brain.Inputs.Count; j++) {
+                            brain.Outputs[i].InputSynapses[j].multiplier = Mathf.Clamp01(scoreSets[i][j]);
                         }
+                    }
+                    for (int i = 0; i < brain.MainColumn.Count; i++) {
+                        for (int j = 0; j < brain.InputCount; j++) {
+                            brain.MainColumn[i].InputSynapses[j].multiplier = 0.1f;
+                        }
+                    }
+                    for (int i = 0; i < brain.Inputs.Count; i++) {
+                        brain.MainColumn[i].InputSynapses[i].multiplier = 1;
                     }
                 }
 
